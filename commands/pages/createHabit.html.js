@@ -189,58 +189,53 @@ CMD*/
 
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script>
-    let selectedDays = [];
-    const daysList = document.querySelectorAll('.daysList li');
-
-    daysList.forEach(day => {
-        day.addEventListener('click', function() {
-            this.classList.toggle('selected');
-            const dayID = this.id;
-            
-            if (selectedDays.includes(dayID)) {
-                selectedDays = selectedDays.filter(d => d !== dayID);
-            } else {
-                selectedDays.push(dayID);
-            }
-            
-            this.style.transform = 'scale(0.95)';
-            setTimeout(() => {
-                this.style.transform = 'scale(1)';
-            }, 100);
-        });
-    });
-
-    async function submitForm(event) {
-        event.preventDefault();
-        const tg = window.Telegram.WebApp;
-        const userID = tg.initDataUnsafe.user?.id;
-        const habitTarget = document.getElementById('habitGoal').value.trim();
-
-        if (!habitTarget || !selectedDays.length) {
-            tg.showAlert("Please fill in all required fields");
-            document.getElementById('habitGoal').focus();
-            return;
+    let selectedDays = []
+const daysList = document.querySelectorAll('.daysList li')
+daysList.forEach(day => {
+    day.addEventListener('click', function () {
+        this.classList.toggle('selected')
+        const dayID = this.id
+        if (selectedDays.includes(dayID)) {
+            selectedDays = selectedDays.filter(d => d !== dayID)
+        } else {
+            selectedDays.push(dayID)
         }
 
-        try {
-            const response = await fetch("https://api.bots.business/v2/bots/<%bot.id%>/web-app/createhabitdata?", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ userID, habitTarget, selectedDays })
-            });
-
-            if (response.ok) {
-                const result = await response.json();
-                tg.showAlert(result.message);
-                setTimeout(() => tg.close(), 1500);
-            } else {
-                tg.showAlert("Failed to create habit. Please try again.");
-            }
-        } catch (error) {
-            console.error('Error:', error);
-            tg.showAlert("Connection error. Please check your internet.");
-        }
+        this.style.transform = 'scale(0.95)'
+        setTimeout(() => {
+            this.style.transform = 'scale(1)'
+        }, 100)
+    })
+})
+async function submitForm(event) {
+    event.preventDefault()        
+    const tg = window.Telegram.WebApp        
+    const userID = tg.initDataUnsafe.user?.id        
+    const habitTarget = document.getElementById('habitGoal').value.trim()
+    if (!habitTarget || !selectedDays.length) {
+        tg.showAlert("Please fill in all required fields")            
+        document.getElementById('habitGoal').focus();
+        return
     }
+
+    try {
+        const response = await fetch("https://api.bots.business/v2/bots/<%bot.id%>/web-app/createhabitdata?", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ userID, habitTarget, selectedDays })
+        })
+        if (response.ok) {
+            const result = await response.json()
+            tg.showAlert(result.message)                
+            setTimeout(() => tg.close(), 1500)
+        } else {
+            tg.showAlert("Failed to create habit. Please try again.")
+        }
+    } catch (error) {
+        console.error('Error:', error)
+        tg.showAlert("Connection error. Please check your internet.")
+    }
+}
     </script>
 </body>
 </html>
