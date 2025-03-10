@@ -163,8 +163,7 @@ CMD*/
             for (const monthKey in groupedTasks) {
                 const monthTasks = groupedTasks[monthKey]
 
-                // Create month container
-                const monthContainer = document.createElement('div')
+                               const monthContainer = document.createElement('div')
                 monthContainer.classList.add('month-container')
 
                 // Add month heading
@@ -181,13 +180,12 @@ CMD*/
                     const taskItem = document.createElement('li')
                     taskItem.classList.add('task-item')
 
-                    // Task name
+                    
                     const taskName = document.createElement('div')
                     taskName.classList.add('task-name')
                     taskName.textContent = task.habitTarget
 
-                    // Task date
-                    const taskDate = document.createElement('div')
+                                        const taskDate = document.createElement('div')
                     taskDate.classList.add('task-date')
                     taskDate.textContent = `Completed on: ${task.date}`
 
